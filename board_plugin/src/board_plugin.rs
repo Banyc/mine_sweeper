@@ -78,8 +78,12 @@ fn create_board(
                         let custom_size = Vec2::splat(TILE_SIZE);
                         {
                             let transform = Transform::from_xyz(
-                                x as f32 * TILE_SIZE,
-                                y as f32 * TILE_SIZE,
+                                x as f32 * TILE_SIZE
+                                    - (TILE_SIZE * tile_map.width() as f32 / 2.0)
+                                    + TILE_SIZE / 2.0,
+                                y as f32 * TILE_SIZE
+                                    - (TILE_SIZE * tile_map.height() as f32 / 2.0)
+                                    + TILE_SIZE / 2.0,
                                 1.0,
                             );
                             tile_entity.insert(Name::new(format!("Tile ({})", coordinates)));
