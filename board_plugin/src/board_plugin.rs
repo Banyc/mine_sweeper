@@ -18,17 +18,16 @@ impl Plugin for BoardPlugin {
     fn build(&self, app: &mut App) {
         app.insert_resource(self.board_options.clone());
         app.insert_resource(FontPath(self.font_path.clone()));
-        app.add_startup_system(setup_assets.before(create_board));
+        app.add_startup_system_to_stage(StartupStage::PreStartup, setup_assets);
         app.add_startup_system(create_board);
     }
 }
 
 fn setup_assets(mut commands: Commands, asset_server: Res<AssetServer>, font_path: Res<FontPath>) {
-    println!("setup board");
     commands.insert_resource(BoardAssets {
         font: asset_server.load(&font_path.0),
     });
-    println!("setup board done");
+    log::info!("Loaded font: {}", font_path.0);
 }
 
 fn create_board(
